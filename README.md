@@ -1,5 +1,28 @@
-# Welcome to GitHub Desktop!
+# 👋 你好，我是 云母未来！
 
-This is your README. READMEs are where you can communicate what your project is and how to use it.
+欢迎来到我的“第一坨屎”—— 这也是我的个人博客和学习记录！
 
-Write your name on line 6, save it, and then head back to GitHub Desktop.
+---
+
+### 🪪 关于我
+
+- 一名正在自学前端的**旅游管理**专业大学生
+- 目前正在狂点技能树：HTML, CSS, JavaScript... 以及 Git！
+- 我相信“哪怕是屎也要先发上去”。所以这是我的第一坨屎。嗯，它并不是很香。
+
+### 🚀 我的项目 (My Projects)
+
+- 很遗憾，目前没有。毕竟我三件套还没学完，学完了估计会先做个网站出来试试水。
+
+### 💡 我在学什么 (What I'm Learning)
+
+- [🟡] HTML
+- [🔴] CSS
+- [🔴] JavaScript
+- [🟡] Git & GitHub
+
+### 📫 如何联系我 (Find Me)
+
+- **Email:** `lizhanyi2333@163.com`
+- **QQ:** `1411590403`
+- **微信:** `lizhanyi317`
