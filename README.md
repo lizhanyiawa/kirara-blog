@@ -16,10 +16,10 @@
 
 ### 💡 我在学什么 (What I'm Learning)
 
-- [🟡] HTML
-- [🔴] CSS
-- [🔴] JavaScript
-- [🟡] Git & GitHub
+- 🟡 HTML
+- 🔴 CSS
+- 🔴 JavaScript
+- 🟡 Git & GitHub
 
 ### 📫 如何联系我 (Find Me)
 
