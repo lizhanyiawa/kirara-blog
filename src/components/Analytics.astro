@@ -1,0 +1,15 @@
+---
+import { UMAMI } from '../config';
+const enabled = Boolean(UMAMI.websiteId);
+---
+
+{
+  enabled && (
+    <script
+      is:inline
+      defer
+      src={UMAMI.src}
+      data-website-id={UMAMI.websiteId}
+    />
+  )
+}

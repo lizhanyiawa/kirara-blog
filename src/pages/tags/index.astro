@@ -1,0 +1,43 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { url } from '../../config';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+
+const counts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+
+const tags = [...counts.entries()].sort(
+  (a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'zh-CN')
+);
+---
+
+<BaseLayout title="标签" description="按标签浏览文章。">
+  <div class="container">
+    <header class="page-header">
+      <h1>标签</h1>
+      <p>共 {tags.length} 个标签。</p>
+    </header>
+    <div class="wrap">
+      {
+        tags.length > 0 ? (
+          <div class="tag-cloud">
+            {tags.map(([tag, count]) => (
+              <a class="tag" href={url(`tags/${encodeURIComponent(tag)}/`)}>
+                #{tag}
+                <span class="tag-cloud__count">{count}</span>
+              </a>
+            ))}
+          </div>
+        ) : (
+          <p class="empty">还没有标签。在文章开头写下 tags 就会出现。</p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

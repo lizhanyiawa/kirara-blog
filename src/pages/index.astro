@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import avatar from '../assets/avatar.png';
+import { SITE, url } from '../config';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const latest = posts.slice(0, 5);
+---
+
+<BaseLayout>
+  <section class="hero">
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__text">
+          <span class="eyebrow">Hi there</span>
+          <h1>你好，我是 {SITE.author}</h1>
+          <p class="hero__lead">
+            这里记录我的前端学习路径、动手做的项目，以及一些还没想明白的问题。
+            从 HTML 和 CSS 开始，一路写到能跑起来的完整站点。
+          </p>
+          <div class="hero__meta">
+            <span class="tag tag--ghost">HTML / CSS</span>
+            <span class="tag tag--ghost">JavaScript</span>
+            <span class="tag tag--ghost">Git</span>
+            <span class="tag tag--ghost">Astro</span>
+          </div>
+          <div class="hero__actions">
+            <a class="btn btn--primary" href={url('posts/')}>看文章</a>
+            <a class="btn" href={url('about/')}>关于我</a>
+          </div>
+        </div>
+        <Image
+          class="avatar"
+          src={avatar}
+          alt={`${SITE.author} 的头像`}
+          width={108}
+          height={108}
+          format="webp"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container wrap">
+      <h2 class="section-title">
+        最近更新
+        <a href={url('posts/')}>全部文章 →</a>
+      </h2>
+      {
+        latest.length > 0 ? (
+          <ul class="post-list">
+            {latest.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </ul>
+        ) : (
+          <p class="empty">还没有文章。在 src/content/blog/ 里新建一个 Markdown 文件就能发布了。</p>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

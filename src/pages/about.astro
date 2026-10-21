@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, url } from '../config';
+---
+
+<BaseLayout title="关于" description={`关于 ${SITE.author}，以及这个博客是怎么搭起来的。`}>
+  <div class="container">
+    <header class="page-header">
+      <h1>关于</h1>
+      <p>{SITE.tagline}</p>
+    </header>
+
+    <div class="wrap section">
+      <div class="prose">
+        <p>
+          我是 {SITE.author}，正在自学前端。从 HTML 开始，一个标签一个标签地写，
+          现在在补 CSS、JavaScript，也在摸索怎么把学过的东西真正串成一个能用的产品。
+        </p>
+
+        <p>
+          之前我用手写 HTML 的方式做过几个练习页，包括 freeCodeCamp 的课程作业。
+          那些页面留在了 <code>lab-archive</code> 分支里，作为学习记录。
+          现在这个博客换成了静态生成器，发文只需要写一个 Markdown 文件。
+        </p>
+
+        <h2>在学的东西</h2>
+
+        <ul>
+          <li><strong>HTML</strong>：语义化标签、表单、可访问性</li>
+          <li><strong>CSS</strong>：盒模型、Flex 与 Grid、响应式布局</li>
+          <li><strong>JavaScript</strong>：DOM 操作、事件、异步</li>
+          <li><strong>工具</strong>：Git、命令行、npm</li>
+          <li><strong>框架</strong>：React、Node.js（刚起步）</li>
+        </ul>
+
+        <h2>这个站点</h2>
+
+        <p>
+          用 <a class="external-link" href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>
+          构建，纯静态输出：没有服务端，没有数据库，读者拿到的就是 HTML 和 CSS。
+          评论挂在 GitHub Discussions 上，样式全部是手写 CSS。
+        </p>
+
+        <p>
+          想看代码可以来 <a class="external-link" href={SITE.github} target="_blank" rel="noopener noreferrer">GitHub</a>，
+          想追更可以订阅 <a href={url('rss.xml')}>RSS</a>。
+        </p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

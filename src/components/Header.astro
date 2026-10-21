@@ -1,0 +1,32 @@
+---
+import { SITE, url } from '../config';
+import ThemeToggle from './ThemeToggle.astro';
+
+const path = Astro.url.pathname;
+
+const links = [
+  { href: url(''), label: '首页', isActive: path === url('') },
+  { href: url('posts/'), label: '文章', isActive: path.startsWith(url('posts')) },
+  { href: url('tags/'), label: '标签', isActive: path.startsWith(url('tags')) },
+  { href: url('about/'), label: '关于', isActive: path.startsWith(url('about')) },
+];
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a class="brand" href={url('')}>
+      <span class="brand__dot" aria-hidden="true"></span>
+      <span>{SITE.title}</span>
+    </a>
+    <nav class="nav" aria-label="主导航">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={link.isActive ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>

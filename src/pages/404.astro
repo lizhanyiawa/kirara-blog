@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { url } from '../config';
+---
+
+<BaseLayout title="页面不存在" description="这个地址没有内容。" noindex>
+  <div class="container">
+    <div class="not-found">
+      <span class="not-found__code">404</span>
+      <h1>这个页面不见了</h1>
+      <p>也许链接写错了，也许这篇文章被移走了。</p>
+      <p style="margin-top: 2rem;">
+        <a class="btn btn--primary" href={url('')}>回到首页</a>
+        <a class="btn" href={url('posts/')} style="margin-left: 8px;">看看文章</a>
+      </p>
+    </div>
+  </div>
+</BaseLayout>

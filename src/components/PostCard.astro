@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../config';
+import { formatDate, readingTime } from '../lib/utils';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+---
+
+<li>
+  <a class="post-card" href={url(`posts/${post.id}/`)}>
+    <time class="post-card__date" datetime={pubDate.toISOString()}>
+      {formatDate(pubDate)} · {readingTime(post.body)} 分钟
+    </time>
+    <h3 class="post-card__title">{title}</h3>
+    {description && <p class="post-card__desc">{description}</p>}
+    {
+      tags.length > 0 && (
+        <div class="tag-list">
+          {tags.map((tag) => (
+            <span class="tag tag--ghost">#{tag}</span>
+          ))}
+        </div>
+      )
+    }
+  </a>
+</li>

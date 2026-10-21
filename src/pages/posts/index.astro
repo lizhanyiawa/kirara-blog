@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="文章" description="所有文章，按时间倒序排列。">
+  <div class="container">
+    <header class="page-header">
+      <h1>文章</h1>
+      <p>共 {posts.length} 篇，按发布时间倒序排列。</p>
+    </header>
+    <div class="wrap">
+      {
+        posts.length > 0 ? (
+          <ul class="post-list">
+            {posts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </ul>
+        ) : (
+          <p class="empty">还没有文章。在 src/content/blog/ 里新建一个 Markdown 文件就能发布了。</p>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,120 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Toc from '../../components/Toc.astro';
+import Giscus from '../../components/Giscus.astro';
+import { SITE, url } from '../../config';
+import { formatDate, readingTime } from '../../lib/utils';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  newer?: CollectionEntry<'blog'>;
+  older?: CollectionEntry<'blog'>;
+}
+
+export async function getStaticPaths() {
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
+
+  return posts.map((post, index) => ({
+    params: { id: post.id },
+    props: {
+      post,
+      newer: posts[index - 1],
+      older: posts[index + 1],
+    },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, description, pubDate, updatedDate, tags } = post.data;
+const minutes = readingTime(post.body);
+
+const published = new Date(pubDate).toISOString();
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: title,
+  description,
+  datePublished: published,
+  dateModified: new Date(updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Person', name: SITE.author },
+  mainEntityOfPage: new URL(url(`posts/${post.id}/`), Astro.site).href,
+};
+---
+
+<BaseLayout title={title} description={description} type="article">
+  <article>
+    <div class="container">
+      <header class="post-header">
+        <div class="post-grid">
+          <div>
+            <h1>{title}</h1>
+            {description && <p class="post-header__desc">{description}</p>}
+            <div class="post-header__meta">
+              <time datetime={published}>{formatDate(pubDate)}</time>
+              <span>·</span>
+              <span>{minutes} 分钟阅读</span>
+              {
+                updatedDate && (
+                  <>
+                    <span>·</span>
+                    <span>更新于 {formatDate(updatedDate)}</span>
+                  </>
+                )
+              }
+            </div>
+            {
+              tags.length > 0 && (
+                <div class="tag-list" style="margin-top: 12px;">
+                  {tags.map((tag) => (
+                    <a class="tag" href={url(`tags/${encodeURIComponent(tag)}/`)}>
+                      #{tag}
+                    </a>
+                  ))}
+                </div>
+              )
+            }
+          </div>
+        </div>
+      </header>
+
+      <div class="post-grid post-layout">
+        <div class="post-body">
+          <div class="prose">
+            <Content />
+          </div>
+
+          <nav class="post-nav" aria-label="上一篇与下一篇">
+            {
+              older ? (
+                <a class="post-nav__link" href={url(`posts/${older.id}/`)}>
+                  <span class="post-nav__label">← 更早</span>
+                  <span class="post-nav__title">{older.data.title}</span>
+                </a>
+              ) : (
+                <span></span>
+              )
+            }
+            {
+              newer && (
+                <a class="post-nav__link post-nav__link--next" href={url(`posts/${newer.id}/`)}>
+                  <span class="post-nav__label">更新 →</span>
+                  <span class="post-nav__title">{newer.data.title}</span>
+                </a>
+              )
+            }
+          </nav>
+
+          <Giscus />
+        </div>
+        <Toc headings={headings} />
+      </div>
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+</BaseLayout>

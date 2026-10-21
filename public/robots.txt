@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://lizhanyiawa.github.io/kirara-blog/sitemap-index.xml

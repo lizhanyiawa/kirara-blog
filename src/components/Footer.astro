@@ -1,0 +1,15 @@
+---
+import { SITE, url } from '../config';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <span>© {year} {SITE.author}</span>
+    <div class="site-footer__links">
+      <a href={url('rss.xml')}>RSS</a>
+      <a href={SITE.github} target="_blank" rel="noopener noreferrer">GitHub</a>
+      {SITE.email && <a href={`mailto:${SITE.email}`}>邮箱</a>}
+    </div>
+  </div>
+</footer>
